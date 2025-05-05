@@ -3,10 +3,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { InferGetStaticPropsType } from "next"
 import Template from '@/app/template_blog/template';
-import mysql from 'mysql2/promise'
-import { neon } from "@neondatabase/serverless";
+import question from '@/app/connect_sql'
 
-export default function Home({ result_json } : InferGetStaticPropsType<typeof getStaticProps>){
+export default function Home({ result_json } : InferGetStaticPropsType<typeof getServerSideProps>){
 
   const final_result = JSON.parse(result_json);
 
@@ -36,13 +35,13 @@ export default function Home({ result_json } : InferGetStaticPropsType<typeof ge
 
 }
 
-export async function getStaticProps() {
-  
-  const sql = neon(`postgres://neondb_owner:npg_kN3JuQV5pDtq@ep-summer-sound-a25a938d-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require`);
-      // Insert the comment from the form into the Postgres database
-      const results = await sql.query("SELECT * FROM blog_table WHERE blog_state = '1'");
+export async function getServerSideProps() {
 
-  const result_json = JSON.stringify(results);
+
+  const result = await question("SELECT * FROM blog_table WHERE blog_state = array[1]");
+
+  const result_json = JSON.stringify(result);
+  console.log(result_json);
         
   return {
     props: {

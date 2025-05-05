@@ -3,9 +3,9 @@ import mysql from 'mysql2/promise';
 import { InferGetStaticPropsType } from 'next';
 import { useState } from 'react';
 import Template from '@/app/template_editor/template';
-import { neon } from '@neondatabase/serverless';
+import question from '@/app/connect_sql'
 
-export default function Index({ result_json } : InferGetStaticPropsType<typeof getStaticProps>){
+export default function Index({ result_json } : InferGetStaticPropsType<typeof getServerSideProps>){
  
     const conv  = JSON.parse(result_json);
 
@@ -75,29 +75,15 @@ export default function Index({ result_json } : InferGetStaticPropsType<typeof g
       )      
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
-  const sql = neon(`postgres://neondb_owner:npg_kN3JuQV5pDtq@ep-summer-sound-a25a938d-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require`);
-    // Insert the comment from the form into the Postgres database
-    const results = await sql.query("SELECT * FROM blog_table");
-/*
-      const connection = await mysql.createConnection({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        database: process.env.DB_DATABASE,
-      });
-    
-      const [results, fields] = await connection.execute(
-        'SELECT * FROM blog_table'  
-      );*/
-
-
+      const results = await question("SELECT * FROM blog_table")
       const result_json = JSON.stringify(results);
       
       return {
         props: {
             result_json,
-        },
+        }
     
   }
 }

@@ -19,16 +19,8 @@ import '@/app/styles.scss'
 
 import MenuBar from '../MenuBar';
 
-export const getStaticPaths = (async () => {
 
-    return {
-        paths: [],
-        fallback: "blocking" 
-    }
-
-})
-
-export async function getStaticProps({ params }: { params: any }) {
+export async function getServerSideProps({ params }: { params: any }) {
 
     const filename = "public/post_text/" + params.id + ".html";
     const filecontents = await fs.readFile(filename, 'utf-8');
@@ -82,7 +74,7 @@ const extensions = [
 ]
 
 
-export default function Cloud( { repo, content_} : InferGetStaticPropsType<typeof getStaticProps> ){
+export default function Cloud( { repo, content_} : InferGetStaticPropsType<typeof getServerSideProps> ){
 
   const [val, setVal] = useState(content_.toString());
 

@@ -4,7 +4,7 @@ import { promises as fs } from 'fs'
 
 "use server"
 
-export default function Article( {content} : InferGetStaticPropsType<typeof getStaticProps>){
+export default function Article( {content} : InferGetStaticPropsType<typeof getServerSideProps>){
 
     return (
         <Template>
@@ -20,16 +20,8 @@ export default function Article( {content} : InferGetStaticPropsType<typeof getS
 
 }
 
-export const getStaticPaths = (async () => {
 
-    return {
-        paths: [],
-        fallback: "blocking" 
-    }
-
-})
-
-export async function getStaticProps({ params }: { params: any }){
+export async function getServerSideProps({ params }: { params: any }){
 
     const filename = "public/post_text/" + params.id + ".html";
     const fileContents = await fs.readFile(filename, "utf-8")
