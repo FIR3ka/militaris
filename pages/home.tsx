@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { InferGetStaticPropsType } from "next"
 import Template from '@/app/template_blog/template';
 import mysql from 'mysql2/promise'
+import { neon } from "@neondatabase/serverless";
 
 export default function Home({ result_json } : InferGetStaticPropsType<typeof getStaticProps>){
 
@@ -37,16 +38,10 @@ export default function Home({ result_json } : InferGetStaticPropsType<typeof ge
 }
 
 export async function getStaticProps() {
-
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-  });
-
-  const [results, fields] = await connection.execute(
-    "SELECT * FROM blog_table WHERE blog_state = '1'"  
-  );
+  
+  const sql = neon(`postgres://neondb_owner:npg_kN3JuQV5pDtq@ep-summer-sound-a25a938d-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require`);
+      // Insert the comment from the form into the Postgres database
+      const results = await sql.query("SELECT * FROM blog_table WHERE blog_state = '1'");
 
   const result_json = JSON.stringify(results);
         
