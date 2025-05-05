@@ -21,7 +21,6 @@ export default function Home({ result_json } : InferGetStaticPropsType<typeof ge
                   <div> 
 
                     <Link href={"articles/" + item.blog_index}>
-                    <Image className="rounded-lg h-[270px] object-cover" src={"/post_thumbnail/" + item.blog_index + ".jpg"} alt={""} width={500}  height={300}></Image>
                       <div className="text-lg mt-[1em]">{ item.blog_title }</div>
                       <div className="text-stone-800">{ item.blog_description }</div>
                     </Link>
