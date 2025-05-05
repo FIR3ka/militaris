@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.27.8",
+    "@neondatabase/serverless": "^1.0.0",
     "@tiptap/extension-highlight": "^2.11.9",
     "@tiptap/extension-image": "^2.11.9",
     "@tiptap/extension-link": "^2.11.9",

@@ -3,6 +3,7 @@ import mysql from 'mysql2/promise';
 import { InferGetStaticPropsType } from 'next';
 import { useState } from 'react';
 import Template from '@/app/template_editor/template';
+import { neon } from '@neondatabase/serverless';
 
 export default function Index({ result_json } : InferGetStaticPropsType<typeof getStaticProps>){
  
@@ -76,6 +77,10 @@ export default function Index({ result_json } : InferGetStaticPropsType<typeof g
 
 export async function getStaticProps() {
 
+  const sql = neon(`${process.env.DATABASE_URL}`);
+    // Insert the comment from the form into the Postgres database
+    const results = await sql.query("SELECT * FROM blog_table");
+/*
       const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
         user: process.env.DB_USER,
@@ -84,7 +89,8 @@ export async function getStaticProps() {
     
       const [results, fields] = await connection.execute(
         'SELECT * FROM blog_table'  
-      );
+      );*/
+
 
       const result_json = JSON.stringify(results);
       
