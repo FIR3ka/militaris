@@ -77,7 +77,7 @@ export default function Index({ result_json } : InferGetStaticPropsType<typeof g
 
 export async function getStaticProps() {
 
-  const sql = neon(`${process.env.DATABASE_URL}`);
+  const sql = neon(`postgres://neondb_owner:npg_kN3JuQV5pDtq@ep-summer-sound-a25a938d-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require`);
     // Insert the comment from the form into the Postgres database
     const results = await sql.query("SELECT * FROM blog_table");
 /*
